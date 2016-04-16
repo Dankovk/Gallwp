@@ -163,13 +163,27 @@ if ( ! defined( 'ABSPATH' ) ) {
 		</div>
 		<div class="white-background">
 			<div class="type-of-art">
-				<div class="paintings"><span>PAINTINGS</span></div>
-				<div class="drawings active"><span>DRAWINGS</span></div>
-				<div class="prints"><span>PRINTS</span></div>
+				<?
+					$subcategories = get_subcats();
+
+					foreach ($subcategories as $sc) {?>
+						<div class="<? echo $sc -> slug; ?>">
+							<span><? echo $sc -> name; ?></span>
+						</div>
+					<?}
+				?>
+
+<!--				<div class="paintings"><span>PAINTINGS</span></div>-->
+<!--				<div class="drawings active"><span>DRAWINGS</span></div>-->
+<!--				<div class="prints"><span>PRINTS</span></div>-->
 			</div>
 		</div>
 	</div>
 
+
+	<?php
+
+	?>
 
 
 	<div class="paintings-list">
