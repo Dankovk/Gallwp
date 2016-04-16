@@ -51,6 +51,7 @@ do_action( 'woocommerce_before_cart' ); ?>
                             </tr>
                             </thead>
                             <?php do_action( 'woocommerce_before_cart_contents' ); ?>
+
                             <tbody>
                             <?php
                             foreach ( WC()->cart->get_cart() as $cart_item_key => $cart_item ) {
@@ -137,6 +138,7 @@ do_action( 'woocommerce_before_cart' ); ?>
                 <?php do_action( 'woocommerce_after_cart' ); ?>
                 <div class="cart-footer">
                     <div class="info">
+
                         <ul>
                             <li><a href="#">Purchasing FAQ</a></li>
                             <li><a href="#">Shopping info</a></li>
@@ -144,12 +146,16 @@ do_action( 'woocommerce_before_cart' ); ?>
                         </ul>
                     </div>
                     <div class="button-cont">
-                        <button class="btn btn-transparent">Checkout</button>
+                        <a href="<?php echo esc_url( wc_get_checkout_url() ) ;?>" class="btn btn-transparent">
+                            Checkout
+                        </a>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+
 <?php get_footer(); ?>
 

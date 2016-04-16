@@ -151,14 +151,20 @@ do_action( 'woocommerce_before_cart' ); ?>
                 <?php do_action( 'woocommerce_after_cart' ); ?>
                 <div class="cart-footer">
                     <div class="info">
+
                         <ul>
                             <li><a href="#">Purchasing FAQ</a></li>
                             <li><a href="#">Shopping info</a></li>
                             <li><a href="#">Return Policy</a></li>
                         </ul>
                     </div>
+                    <div class="vla">
+                        asdasd,mnsd,fnba .sfgj;<div class="lorem"></div>
+                    </div>
                     <div class="button-cont">
-                        <button class="btn btn-transparent">Checkout</button>
+                        <a href="<?php echo esc_url( wc_get_checkout_url() ) ;?>" class="btn btn-transparent">
+                           Checkout
+                        </a>
                     </div>
                 </div>
             </div>
