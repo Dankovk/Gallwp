@@ -264,7 +264,7 @@ add_action( 'after_setup_theme', 'activello_woo_setup' );
  */
 function activello_header_search_filter($form){
     $form = '<form action="'.esc_url( home_url( "/" ) ).'" method="get"><input type="text" name="s" value="'.get_search_query().'" placeholder="'. esc_attr_x( __('Search', 'activello'), 'search placeholder', 'activello' ).'"><button type="submit" class="header-search-icon" name="submit" id="searchsubmit" value="'. esc_attr_x( 'Search', 'submit button', 'activello' ).'"><i class="fa fa-search"></i></button></form>';
-    return $form;    
+    return $form;
 }
 
 add_action('wp_ajax_nopriv_get_products', 'get_products');
@@ -354,7 +354,7 @@ function get_products_by_category() {
 
     $args = array(
         'post_type' => 'product',
-        'product_cat'  => $query
+        'product_cat'  => array('subcategory-1', 'subcategory-2')
     );
 
     $wc_query = new WP_Query( $args );
@@ -371,4 +371,24 @@ function get_products_by_category() {
     }
 
     wp_die(); // выход нужен для того, чтобы в ответе не было ничего лишнего, только то что возвращает функция
+}
+
+
+function woocommerce_breadcrumb() {
+    return '';
+}
+
+function add_to_cart() {
+
+    foreach( WC()->cart->get_cart() as $cart_item_key => $values ) {
+        $_product = $values['data'];
+
+        if( get_the_ID() == $_product->id ) {
+            echo 'Already in cart';
+
+            return;
+        }
+    }
+
+    get_template_part('add-to-cart');
 }

@@ -1,84 +1,75 @@
-<?php
-/**
- * The template for displaying product content in the single-product.php template
- *
- * This template can be overridden by copying it to yourtheme/woocommerce/content-single-product.php.
- *
- * HOWEVER, on occasion WooCommerce will need to update template files and you (the theme developer).
- * will need to copy the new files to your theme to maintain compatibility. We try to do this.
- * as little as possible, but it does happen. When this occurs the version of the template file will.
- * be bumped and the readme will list any important changes.
- *
- * @see 	    http://docs.woothemes.com/document/template-structure/
- * @author 		WooThemes
- * @package 	WooCommerce/Templates
- * @version     1.6.4
- */
+<?php /* Template Name: Single Product */ ?>
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit; // Exit if accessed directly
-}
+<? global $post, $product; ?>
 
-?>
+<?php get_header() ?>
 
-<?php
-	/**
-	 * woocommerce_before_single_product hook.
-	 *
-	 * @hooked wc_print_notices - 10
-	 */
-	 do_action( 'woocommerce_before_single_product' );
+<div class="layout-header header-static">
+    <div class="nav">
+        <div class="the-studio">
+            <a href="#"> <span class="bold">THEO</span><span>STUDIO</span></a>
+        </div>
+        <div class="artists">
+            <a href="#">
+                <span>ARTISTS</span>
+            </a>
+        </div>
+        <div class="contact">
+            <a href="#">
+                <span style="color: transparent">CONTACT</span>
+            </a>
+        </div>
+        <div class="basket">
+            <a href="#">
+                <span class="ic-basket"></span>
+            </a>
+        </div>
+    </div>
+</div>
+    <div class="layout-content single-art-content">
+        <div class="layout-container art-container">
+            <div class="art-wrap">
 
-	 if ( post_password_required() ) {
-	 	echo get_the_password_form();
-	 	return;
-	 }
-?>
+                <div class="fotorama" data-maxheight="500px" data-allowfullscreen="true" data-nav="thumbs" data-width="100%">
+                    <?php
+                        $attachment_ids = $product->get_gallery_attachment_ids();
+                        foreach ($attachment_ids as $id) {
+                            echo '<img src="' . wp_get_attachment_url( $id ) . '">';
+                        }
+                    ?>
+                </div>
+            </div>
+            <div class="art-descr-wrap">
+                <div class="art-name">
+                    <h2><? the_title() ?></h2>
+                </div>
+                <div class="art-descr">
+                    <? if ( $product->has_dimensions() ) {?>
+                        <p class="size"><? echo $product -> get_dimensions() ?></p>
+                    <? } ?>
+                    <? if ( $product -> has_attributes('material') ) {?>
+                        <p class="material">
+                            Material: <span><? echo $product -> get_attribute('material') ?></span>
+                        </p>
+                    <? } ?>
+                    <? if ( $product -> has_attributes('creation_year') ) {?>
+                        <p class="year">
+                            Year <span><? echo $product -> get_attribute('creation_year') ?></span>
+                        </p>
+                    <? } ?>
+                </div>
 
-<div itemscope itemtype="<?php echo woocommerce_get_product_schema(); ?>" id="product-<?php the_ID(); ?>" <?php post_class(); ?>>
+                <div class="price">
+                    <span><? echo $product -> get_price_html() ?></span>
+                </div>
 
-	<?php
-		/**
-		 * woocommerce_before_single_product_summary hook.
-		 *
-		 * @hooked woocommerce_show_product_sale_flash - 10
-		 * @hooked woocommerce_show_product_images - 20
-		 */
-		do_action( 'woocommerce_before_single_product_summary' );
-	?>
+                <? add_to_cart() ?>
+            </div>
+        </div>
+    </div>
 
-	<div class="summary entry-summary">
+<!--<div style="position: absolute; background: #fff; top: 50px; white-space: pre; padding: 20px;">-->
+<!--    --><?// var_dump($product) ?>
+<!--</div>-->
 
-		<?php
-			/**
-			 * woocommerce_single_product_summary hook.
-			 *
-			 * @hooked woocommerce_template_single_title - 5
-			 * @hooked woocommerce_template_single_rating - 10
-			 * @hooked woocommerce_template_single_price - 10
-			 * @hooked woocommerce_template_single_excerpt - 20
-			 * @hooked woocommerce_template_single_add_to_cart - 30
-			 * @hooked woocommerce_template_single_meta - 40
-			 * @hooked woocommerce_template_single_sharing - 50
-			 */
-			do_action( 'woocommerce_single_product_summary' );
-		?>
-
-	</div><!-- .summary -->
-
-	<?php
-		/**
-		 * woocommerce_after_single_product_summary hook.
-		 *
-		 * @hooked woocommerce_output_product_data_tabs - 10
-		 * @hooked woocommerce_upsell_display - 15
-		 * @hooked woocommerce_output_related_products - 20
-		 */
-		do_action( 'woocommerce_after_single_product_summary' );
-	?>
-
-	<meta itemprop="url" content="<?php the_permalink(); ?>" />
-
-</div><!-- #product-<?php the_ID(); ?> -->
-
-<?php do_action( 'woocommerce_after_single_product' ); ?>
+<?php get_footer() ?>
