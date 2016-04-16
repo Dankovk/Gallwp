@@ -264,7 +264,7 @@ add_action( 'after_setup_theme', 'activello_woo_setup' );
  */
 function activello_header_search_filter($form){
     $form = '<form action="'.esc_url( home_url( "/" ) ).'" method="get"><input type="text" name="s" value="'.get_search_query().'" placeholder="'. esc_attr_x( __('Search', 'activello'), 'search placeholder', 'activello' ).'"><button type="submit" class="header-search-icon" name="submit" id="searchsubmit" value="'. esc_attr_x( 'Search', 'submit button', 'activello' ).'"><i class="fa fa-search"></i></button></form>';
-    return $form;    
+    return $form;
 }
 
 add_action('wp_ajax_nopriv_get_products', 'get_products');
@@ -273,20 +273,8 @@ function get_products() {
     ob_start();
 
     $args = array(
-        'post_type'             => 'product',
-        'posts_per_page'        => 5,
+        'post_type' => 'product'
     );
-
-    if ($_GET['category']) {
-        $args['tax_query'] = array(
-            'relation' => 'AND',
-            array(
-                'taxonomy' => 'product_cat',
-                'field' => 'slug',
-                'terms' => $_GET['category']
-            )
-        );
-    }
 
     if ($_GET['category']) {
         $args['tax_query'] = array(
@@ -313,4 +301,94 @@ function get_products() {
     }
 
     wp_die(); // выход нужен для того, чтобы в ответе не было ничего лишнего, только то что возвращает функция
+}
+
+
+function get_subcats() {
+    $categories = get_terms( 'product_cat' );
+
+    $sub_cats = [];
+    $sub_cats_names = [];
+
+    foreach ($categories as $cat) {
+        if ($cat -> parent && !in_array($cat -> name, $sub_cats_names)) {
+            array_push($sub_cats, $cat);
+            array_push($sub_cats_names, $cat -> name);
+        }
+    }
+
+    return $sub_cats;
+}
+
+add_action('wp_ajax_nopriv_get_subcategories', 'get_subcategories');
+add_action('wp_ajax_get_subcategories', 'get_subcategories');
+function get_subcategories() {
+    ob_start();
+
+
+    $sub_cats = get_subcategories();
+
+    var_dump($sub_cats);
+
+    wp_die(); // выход нужен для того, чтобы в ответе не было ничего лишнего, только то что возвращает функция
+}
+
+add_action('wp_ajax_nopriv_get_products_by_category', 'get_products_by_category');
+add_action('wp_ajax_get_products_by_category', 'get_products_by_category');
+function get_products_by_category() {
+    ob_start();
+
+
+    $cat = get_term_by( 'slug', $_GET['category'], 'product_cat' );
+
+    $cats = get_categories( array(
+        taxonomy    => 'product_cat',
+        name        => $cat -> name
+    ));
+
+    $query = '';
+
+    foreach ($cats as $c) {
+        $query .= $c -> slug;
+    }
+
+    $args = array(
+        'post_type' => 'product',
+        'product_cat'  => array('subcategory-1', 'subcategory-2')
+    );
+
+    $wc_query = new WP_Query( $args );
+
+    if ( $wc_query -> have_posts() ) {
+        woocommerce_product_loop_start();
+
+        while ( $wc_query -> have_posts() ) {
+            $wc_query -> the_post();
+            wc_get_template_part( 'content', 'product' );
+        }
+
+        woocommerce_product_loop_end();
+    }
+
+    wp_die(); // выход нужен для того, чтобы в ответе не было ничего лишнего, только то что возвращает функция
+}
+
+
+function woocommerce_breadcrumb() {
+    return '';
+}
+
+function add_to_cart() {
+
+    foreach( WC()->cart->get_cart() as $cart_item_key => $values ) {
+        $_product = $values['data'];
+
+        if( get_the_ID() == $_product->id ) {
+            echo 'Already in cart';
+
+            return;
+        }
+    }
+
+    get_template_part('add-to-cart');
 }
