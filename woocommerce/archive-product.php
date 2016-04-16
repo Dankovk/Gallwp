@@ -69,7 +69,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 						'orderby'    => $orderby,
 						'order'      => $order,
 						'hide_empty' => $hide_empty,
-						'include'    => $ids
+						'include'    => $ids,
+						'parent'     => 0
 					);
 
 					$product_categories = get_terms( 'product_cat', $args );
@@ -79,8 +80,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 					foreach( $product_categories as $cat ) {
 					?>
 						<div class="artist-name">
-							<a href="<?php echo get_term_link( $cat )?>" data-slug="">
-								<span><?php echo $cat->name; ?></span>
+							<a href="<?php echo get_term_link( $cat )?>" data-slug="<?php echo $cat -> slug ?>">
+								<span><?php echo $cat -> name; ?></span>
 							</a>
 						</div>
 
@@ -173,6 +174,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 	<div class="paintings-list">
 		<div class="pics-wrap">
+			<div class="preloader-wrap">
+				<div class="preloader-elem"></div>
+			</div>
 			<?php woocommerce_product_loop_start(); ?>
 
 			<?php woocommerce_product_subcategories(); ?>
