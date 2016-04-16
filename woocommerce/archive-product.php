@@ -187,10 +187,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 
 	<div class="paintings-list">
+		<div class="preloader-wrap">
+			<div class="preloader-elem"></div>
+		</div>
 		<div class="pics-wrap">
-			<div class="preloader-wrap">
-				<div class="preloader-elem"></div>
-			</div>
 			<?php woocommerce_product_loop_start(); ?>
 
 			<?php woocommerce_product_subcategories(); ?>
