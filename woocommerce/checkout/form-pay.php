@@ -32,7 +32,7 @@
         <!--                            --><?php //do_action( 'woocommerce_pay_order_after_submit' ); ?>
 
         <input type="submit"
-               class="button alt"
+               class="btn btn-transparent"
                name="woocommerce_checkout_place_order"
                id="place_order"
                value="Checkout"

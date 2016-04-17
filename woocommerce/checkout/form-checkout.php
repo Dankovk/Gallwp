@@ -22,40 +22,31 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 ?>
 
-<div class="layout-content no-padding" style="background-image: url('<?php echo get_template_directory_uri() ?>/images/cart-bg.png')">
-    <div class="cart-container">
-        <div class="layout-container art-container">
-            <div class="shopping-cart">
-                <div class="cart-header">
-                    <h2>Shopping cart</h2>
+
+<form id="order_review" method="post">
+
+
+    <?php if ( sizeof( $checkout->checkout_fields ) > 0 ) : ?>
+        <div style="display: none;">
+            <?php do_action( 'woocommerce_checkout_before_customer_details' ); ?>
+
+            <div class="col2-set" id="customer_details">
+                <div class="col-1">
+                    <?php do_action( 'woocommerce_checkout_billing' ); ?>
                 </div>
 
-                <form id="order_review" method="post">
-                    <?php if ( sizeof( $checkout->checkout_fields ) > 0 ) : ?>
-
-                        <?php do_action( 'woocommerce_checkout_before_customer_details' ); ?>
-
-                        <div class="col2-set" id="customer_details">
-                            <div class="col-1">
-                                <?php do_action( 'woocommerce_checkout_billing' ); ?>
-                            </div>
-
-                            <div class="col-2">
-                                <?php do_action( 'woocommerce_checkout_shipping' ); ?>
-                            </div>
-                        </div>
-
-                        <?php do_action( 'woocommerce_checkout_after_customer_details' ); ?>
-
-                    <?php endif; ?>
-
-                    <?php do_action( 'woocommerce_checkout_order_review' ); ?>
-
-                    <h3 id="order_review_heading">Ваш заказ</h3>
-
-                </form>
+                <div class="col-2">
+                    <?php do_action( 'woocommerce_checkout_shipping' ); ?>
+                </div>
             </div>
+
+            <?php do_action( 'woocommerce_checkout_after_customer_details' ); ?>
         </div>
-    </div>
-</div>
+
+    <h3 id="order_review_heading">Ваш заказ</h3>
+
+    <?php do_action( 'woocommerce_checkout_order_review' ); ?>
+
+    <?php endif; ?>
+</form>
 

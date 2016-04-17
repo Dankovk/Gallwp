@@ -392,3 +392,9 @@ function add_to_cart() {
 
     get_template_part('add-to-cart');
 }
+
+
+add_filter( 'woocommerce_default_address_fields', 'filter_address_fields' );
+function filter_address_fields( $fields ) {
+    return [];
+}

@@ -29,7 +29,25 @@
 <?
 
     if ( have_posts() ) : the_post();
-        the_content();
+        ?>
+
+        <div class="layout-content no-padding" style="background-image: url('<?php echo get_template_directory_uri() ?>/images/cart-bg.png')">
+            <div class="cart-container">
+                <div class="layout-container art-container">
+                    <div class="shopping-cart">
+                        <div class="cart-header">
+                            <h2>Shopping cart</h2>
+                        </div>
+
+                        <?
+                        the_content();
+                        ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <?
     endif;
 
     get_footer();
